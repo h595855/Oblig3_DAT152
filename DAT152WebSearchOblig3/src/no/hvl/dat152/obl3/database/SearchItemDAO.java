@@ -94,7 +94,7 @@ public class SearchItemDAO {
 				DatabaseHelper.closeConnection(r, s, c);
 			}
 		}else {
-			System.out.println("Deez");
+			System.out.println("Ulovelig Søk");
 		}
 		
 	}
