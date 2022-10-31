@@ -46,7 +46,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 			
 			AppUserDAO userDAO = new AppUserDAO();
 			
-			if (passwordnew.equals(confirmedPasswordnew)){
+			if (passwordnew.equals(confirmedPasswordnew) && (!Validator.validString(passwordnew).isBlank() && Validator.validString(passwordnew).length() > 3)){
 				
 				successfulPasswordUpdate = userDAO.updateUserPassword(user.getUsername(), passwordnew);
 				

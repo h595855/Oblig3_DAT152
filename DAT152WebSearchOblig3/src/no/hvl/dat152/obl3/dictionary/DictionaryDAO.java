@@ -23,10 +23,9 @@ public class DictionaryDAO {
 		
 		List<String> search_results = null;
 		
-		//if(SearchIsClean) {
+		if(SearchIsClean) {
 			
-		
-		String searchword = opted_root + dictFile(word.toLowerCase().charAt(0));
+		String searchword = opted_root + dictFile(word.toLowerCase().charAt(0));	
 		String page = null;
 		try {
 			page = FileReaderUtil.getWebFile(searchword);
@@ -40,10 +39,8 @@ public class DictionaryDAO {
 
 		DictionaryParser parser = new DictionaryParser(page);
 		search_results = parser.findMatchingEntries(word);
+		}
 		
-//		}else {
-//			System.out.println("Ikke lovelig sokeord");
-//		}
 		return search_results;
 	}
 
