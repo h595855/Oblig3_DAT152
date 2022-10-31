@@ -43,10 +43,7 @@ public class NewUserServlet extends HttpServlet {
 
 		AppUser user = null;
 
-		String passordValidering = Validator.validString(password);
-
-		// Validerer om passordet er tomt med Validator klassen.
-		if (password.equals(confirmedPassword) && (passordValidering.isEmpty() || passordValidering.length() > 3)) {
+		if (password.equals(confirmedPassword) && PassordValidering(password)) {
 			AppUserDAO userDAO = new AppUserDAO();
 
 			user = new AppUser(username, Crypto.generateMD5Hash(password), firstName, lastName, mobilePhone,
@@ -67,6 +64,14 @@ public class NewUserServlet extends HttpServlet {
 				request.setAttribute("message", "Registration failed!");
 				request.getRequestDispatcher("newuser.jsp").forward(request, response);
 			}
+		} else {
+			request.setAttribute("message",
+					"Password Must have at least one numeric character\r\n"
+							+ "Must have at least one lowercase character\r\n"
+							+ "Must have at least one uppercase character\r\n"
+							+ "Must have at least one special symbol among @#$%\r\n"
+							+ "Password length should be between 8 and 20");
+			request.getRequestDispatcher("newuser.jsp").forward(request, response);
 		}
 	}
 
@@ -79,6 +84,13 @@ public class NewUserServlet extends HttpServlet {
 
 		return (UsernameMatch.matches() && FirstnameMatch.matches() && LastnameMatch.matches()
 				&& MobileMatch.matches());
+	}
+
+	public static boolean PassordValidering(String password) {
+		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher passwordMatch = pattern.matcher(password);
+		return passwordMatch.matches();
 	}
 
 }
